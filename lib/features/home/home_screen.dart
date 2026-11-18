@@ -397,10 +397,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Future<void> showLeaderboard() async {
-    await GamesServices.showLeaderboards(
-      iOSLeaderboardID: GameConstants.iOSLeaderboardID,
-      androidLeaderboardID: GameConstants.androidLeaderboardID,
-    );
+    try {
+      if (!await GamesServices.isSignedIn) {
+        await GamesServices.signIn();
+      }
+      await GamesServices.showLeaderboards(
+        iOSLeaderboardID: GameConstants.iOSLeaderboardID,
+        androidLeaderboardID: GameConstants.androidLeaderboardID,
+      );
+    } catch (e) {
+      debugPrint('Error showing leaderboards: $e');
+    }
   }
 
   List<Color> _getStreakGradient(int streakDays, ThemeData theme) {

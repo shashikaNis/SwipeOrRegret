@@ -19,7 +19,6 @@ class HomeController extends ChangeNotifier {
   Future<void> _loadStats() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      await gameServiceSignIn();
 
       _highScore = prefs.getInt('high_score') ?? 0;
       _totalGames = prefs.getInt('total_games') ?? 0;
@@ -37,7 +36,9 @@ class HomeController extends ChangeNotifier {
 
   Future<void> gameServiceSignIn() async {
     try {
-      await GamesServices.signIn();
+      if (!await GamesServices.isSignedIn) {
+        await GamesServices.signIn();
+      }
     } catch (e) {
       debugPrint('Sign-in failed: $e');
     }
