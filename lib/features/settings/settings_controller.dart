@@ -129,7 +129,7 @@ class SettingsController extends ChangeNotifier {
   }
 
   Future<void> openPrivacyPolicy() async {
-    final url = Uri.parse('https://adavii.com/privacy');
+    final url = Uri.parse('https://www.app.adavii.com/a-wallet/privacy.html');
 
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
